@@ -1,16 +1,11 @@
-import {
-  PaperAirplaneIcon,
-  PaperClipIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/solid";
+import { usePostAiCodeMutation } from "@/state/api.js";
 import React, { useState } from "react";
-import Dropzone from "react-dropzone";
 import MessageFormUi from "./MessageFormUi";
 
-const StandardMessageForm = ({ props, activeChat }) => {
+const AiCode = ({ props, activeChat }) => {
   const [message, setMessage] = useState("");
   const [attachment, setAttachment] = useState("");
-  const [preview, setPreview] = useState("");
+  const [trigger] = usePostAiCodeMutation();
 
   const handleChange = (e) => setMessage(e.target.value);
 
@@ -29,10 +24,10 @@ const StandardMessageForm = ({ props, activeChat }) => {
     };
 
     props.onSubmit(form);
+    trigger(form);
     setMessage("");
     setAttachment("");
   };
-
   return (
     <MessageFormUi
       setAttachment={setAttachment}
@@ -43,4 +38,4 @@ const StandardMessageForm = ({ props, activeChat }) => {
   );
 };
 
-export default StandardMessageForm;
+export default AiCode;

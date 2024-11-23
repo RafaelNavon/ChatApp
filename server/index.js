@@ -4,6 +4,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import helmet from "helmet";
 import morgan from "morgan";
+import OpenAI from "openai";
+import openAiRoutes from "./routes/openai.js";
 
 /* CONFIGURATIONS */
 dotenv.config();
@@ -16,8 +18,16 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
+/* OPEN AI CONFIGURATION */
+export const openai = new OpenAI({
+  apiKey: process.env.OPEN_API_KEY, // Use your OpenAI API key here
+});
+
+/* ROUTES */
+app.use("/openai", openAiRoutes);
+
 /* SERVER SETUP */
 const PORT = process.env.PORT || 9000;
 app.listen(PORT, () => {
-  console.log(`app listening at http://localhost:${PORT}`);
+  console.log(`App listening at http://localhost:${PORT}`);
 });
